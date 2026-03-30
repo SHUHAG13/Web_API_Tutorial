@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web_API_Tutorial.Data;
+using Web_API_Tutorial.Models;
 
 namespace Web_API_Tutorial.Controllers
 {
@@ -16,11 +17,12 @@ namespace Web_API_Tutorial.Controllers
             }
 
         [HttpGet("getById")]
-        public async Task<IActionResult> GetAvailableBooks(int id)
+        public async Task<IActionResult> GetAvailableBooks(int  id)
         {
             var books = await _context.Books.FirstOrDefaultAsync(b => b.Id==id);
             return Ok(books);
         }
+
 
         [HttpGet("allAvailableBooks")]
             public async Task<IActionResult> GetAvailableBooks()
@@ -55,6 +57,26 @@ namespace Web_API_Tutorial.Controllers
             }).ToListAsync();
             return Ok(books);
 
+        }
+
+        [HttpGet("getBooksIEnumerable")]
+        public async Task<IActionResult> GetBooksIEnumerable() 
+        {
+            //DB hit load all data 
+            IEnumerable<Book> books = await _context.Books.ToListAsync();
+            //In memory filtering
+             books = books.Where(b => b.Price>500);
+            return Ok(books);
+
+        }
+
+        [HttpGet("getBooksIQueryable")]
+        public async Task<IActionResult>GetBooksIQueryableAsync()
+        {
+           IQueryable<Book> books = _context.Books;
+           books = books.Where(b => b.Price <700);
+           var result = await books.ToListAsync();
+            return Ok(result);
         }
 
 
