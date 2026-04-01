@@ -4,9 +4,8 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int TotalBooks { get; set; }
-        public decimal AveragePrice { get; set; }
-        public bool HasAvailableBooks { get; set; }
+
+        // Navigation Property (One Author → Many Books)
         public ICollection<Book> Books { get; set; }
     }
 }
