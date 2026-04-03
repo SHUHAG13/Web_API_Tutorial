@@ -10,6 +10,8 @@ namespace Web_API_Tutorial.Data
         }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +31,19 @@ namespace Web_API_Tutorial.Data
                 new Book { Id = 3, Title = "SQL Guide", Price = 300, IsAvailable = true, AuthorId = 2 },
                 new Book { Id = 4, Title = "EF Core Deep Dive", Price = 900, IsAvailable = false, AuthorId = 2 },
                 new Book { Id = 5, Title = "LINQ Mastery", Price = 1200, IsAvailable = true, AuthorId = 3 }
+            );
+
+            // ✅ Department Seed
+            modelBuilder.Entity<Department>().HasData(
+                new Department { Id = 1, DepartmentName = "CSE" },
+                new Department { Id = 2, DepartmentName = "BBA" }
+            );
+
+            // ✅ Student Seed
+            modelBuilder.Entity<Student>().HasData(
+                new Student { Id = 1, Name = "Rahim", DepartmentId = 1 },
+                new Student { Id = 2, Name = "Karim", DepartmentId = 2 },
+                new Student { Id = 3, Name = "Akash", DepartmentId = null } // No Department
             );
         }
     }
